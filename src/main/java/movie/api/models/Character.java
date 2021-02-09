@@ -23,7 +23,7 @@ public class Character {
     //@Column(name = )
     private String pictureSrc;
 
-    //@ManyToMany(mappedBy = "Movies")
+    //@ManyToMany(mappedBy = "")
     private List<Movie> movies;
     /*
     @JsonGetter("")
