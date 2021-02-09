@@ -35,6 +35,11 @@ public class Movie {
 
     //@ManyToMany(mappedBy = "")
     private List<Character> characters;
+
+    //@ManyToOne
+    //@JoinColumn(name = "")
+    private long franchiseId;
+
     /*
     @JsonGetter("")
     public List<String> charactersGetter(){
