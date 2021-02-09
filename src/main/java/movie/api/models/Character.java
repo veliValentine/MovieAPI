@@ -1,13 +1,14 @@
 package movie.api.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 //@Entity
 //@Table(name = "ENTER_TABLE_NAME_WHEN_SCHEMA_IS_UP_AND_RUNNING")
 public class Character {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     //@Column(name = )
@@ -23,7 +24,7 @@ public class Character {
     private String pictureSrc;
 
     //@ManyToMany(mappedBy = "Movies")
-    //private List<Movies> movies;
+    private List<Movie> movies;
     /*
     @JsonGetter("")
     public List<String> moviesGetter() {
@@ -48,6 +49,7 @@ public class Character {
         this.pictureSrc = pictureSrc;
     }
 
+    // Getter and setters
     public long getId() {
         return id;
     }
