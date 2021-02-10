@@ -21,6 +21,7 @@ public class Character {
     @Column(name = "alias")
     private String alias;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private Gender gender;
 
