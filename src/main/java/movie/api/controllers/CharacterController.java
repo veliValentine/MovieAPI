@@ -27,16 +27,8 @@ public class CharacterController {
     // post new character
     @PostMapping
     public ResponseEntity<Character> addCharacter(@RequestBody Character newCharacter) {
-        HttpStatus status;
-        long id = characterRepository.save(newCharacter).getId();
-        Character character;
-        if (characterRepository.existsById(id)) {
-            status = HttpStatus.OK;
-            character = characterRepository.findById(id).get();
-        } else {
-            status = HttpStatus.NOT_FOUND;
-            character = new Character();
-        }
+        Character character = characterRepository.save(newCharacter);
+        HttpStatus status = HttpStatus.CREATED;
         return new ResponseEntity<>(character, status);
     }
 
