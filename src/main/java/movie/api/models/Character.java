@@ -3,28 +3,28 @@ package movie.api.models;
 import javax.persistence.*;
 import java.util.List;
 
-//@Entity
-//@Table(name = "ENTER_TABLE_NAME_WHEN_SCHEMA_IS_UP_AND_RUNNING")
+@Entity
+@Table(name = "character")
 public class Character {
 
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    //@Column(name = )
+    @Column(name = "fullName")
     private String fullName;
 
-    //@Column(name = )
+    @Column(name = "alias")
     private String alias;
 
-    //@Column(name = )
+    @Column(name = "gender")
     private Gender gender;
 
-    //@Column(name = )
+    @Column(name = "picture")
     private String pictureSrc;
 
     //@ManyToMany(mappedBy = "")
-    private List<Movie> movies;
+    //private List<Movie> movies;
     /*
     @JsonGetter("")
     public List<String> moviesGetter() {
