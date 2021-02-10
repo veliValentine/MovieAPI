@@ -6,35 +6,35 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@Entity
-//@Table(name = "")
+@Entity
+@Table(name = "movie")
 public class Movie {
 
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    //@Column(name = )
+    @Column(name = "title")
     private String title;
 
-    //@Column(name = )
+    @Column(name = "director")
     private String director;
 
-    //@Column(name = )
+    @Column(name = "year")
     private int releaseYear;
 
-    //@Column(name = )
-    private List<String> genres;
+    @Column(name = "genres")
+    private String genres;
 
-    //@Column(name = )
+    @Column(name = "picture")
     private String pictureSrc;
 
-    //@Column(name = )
+    @Column(name = "trailer")
     private String trailerURI;
 
 
     //@ManyToMany(mappedBy = "")
-    private List<Character> characters;
+    //private List<Character> characters;
 
     //@ManyToOne
     //@JoinColumn(name = "")
@@ -56,7 +56,7 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(String title, String director, int releaseYear, List<String> genres, String pictureSrc, String trailerURI) {
+    public Movie(String title, String director, int releaseYear, String genres, String pictureSrc, String trailerURI) {
         this.title = title;
         this.director = director;
         this.releaseYear = releaseYear;
@@ -98,11 +98,11 @@ public class Movie {
         this.releaseYear = releaseYear;
     }
 
-    public List<String> getGenres() {
+    public String getGenres() {
         return genres;
     }
 
-    public void setGenres(List<String> genres) {
+    public void setGenres(String genres) {
         this.genres = genres;
     }
 
