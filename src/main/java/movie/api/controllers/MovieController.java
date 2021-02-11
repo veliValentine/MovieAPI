@@ -1,7 +1,7 @@
 package movie.api.controllers;
 
 import movie.api.models.Movie;
-import movie.api.repository.MovieRepository;
+import movie.api.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +51,7 @@ public class MovieController {
     public ResponseEntity<Movie> modifyMovie(@PathVariable long id, @RequestBody Movie newMovie) {
         Movie returnMovie = new Movie();
         HttpStatus status;
-        if (id != newMovie.getId()) {
+        if (id != newMovie.getMovieId()) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<>(returnMovie, status);
         }
@@ -70,6 +70,5 @@ public class MovieController {
         return new ResponseEntity<>(null, status);
     }
 
-
-    // get all characters in a movie
+    // TODO get all characters in a movie
 }
