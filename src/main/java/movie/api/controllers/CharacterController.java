@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static movie.api.controllers.ControllerHelper.notEqualIds;
+import static movie.api.controllers.ControllerHelper.equalIds;
+
 import java.util.List;
 
 @RestController
@@ -35,15 +38,14 @@ public class CharacterController {
     // get character by ID
     @GetMapping(value = "/{id}")
     public ResponseEntity<Character> getCharacterById(@PathVariable long id) {
-        Character returnCharacter = new Character();
         HttpStatus status;
-        if (characterRepository.existsById(id)) {
+        Character character = findCharacterById(id);
+        if (equalIds(id, character.getId())) {
             status = HttpStatus.OK;
-            returnCharacter = characterRepository.findById(id).get();
         } else {
             status = HttpStatus.NOT_FOUND;
         }
-        return new ResponseEntity<>(returnCharacter, status);
+        return new ResponseEntity<>(character, status);
     }
 
     // put character by id
@@ -52,7 +54,7 @@ public class CharacterController {
         Character returnCharacter = new Character();
         HttpStatus status;
         // check that path id is the same as character id
-        if (id != newCharacter.getId()) {
+        if (notEqualIds(id, newCharacter.getId())) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<>(returnCharacter, status);
         }
@@ -64,11 +66,22 @@ public class CharacterController {
     // delete character by id
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Character> removeCharacter(@PathVariable long id) {
-        if (characterRepository.existsById(id)) {
+        if (characterExists(id)) {
             characterRepository.deleteById(id);
         }
         // TODO add else statement for id not found
         HttpStatus status = HttpStatus.NO_CONTENT;
         return new ResponseEntity<>(null, status);
+    }
+
+    private boolean characterExists(long id) {
+        return characterRepository.existsById(id);
+    }
+
+    private Character findCharacterById(long id) {
+        if (characterExists(id)) {
+            return characterRepository.findById(id).get();
+        }
+        return new Character();
     }
 }
