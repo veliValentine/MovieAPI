@@ -48,7 +48,7 @@ public class CharacterController {
 
     // put character by id
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Character> putCharacter(@PathVariable long id, @RequestBody Character newCharacter) {
+    public ResponseEntity<Character> updateCharacter(@PathVariable long id, @RequestBody Character newCharacter) {
         Character returnCharacter = new Character();
         HttpStatus status;
         // check that path id is the same as character id
@@ -67,6 +67,7 @@ public class CharacterController {
         if (characterRepository.existsById(id)) {
             characterRepository.deleteById(id);
         }
+        // TODO add else statement for id not found
         HttpStatus status = HttpStatus.NO_CONTENT;
         return new ResponseEntity<>(null, status);
     }
