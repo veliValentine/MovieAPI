@@ -1,5 +1,6 @@
 package movie.api.controllers;
 
+import movie.api.models.Character;
 import movie.api.models.Movie;
 import movie.api.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +47,24 @@ public class MovieController {
         return new ResponseEntity<>(movie, status);
     }
 
+    // get characters for a movie
+    // returns a list of URIs ro each character
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<List<String>> getMovieCharacters(@PathVariable long id) {
+        HttpStatus status;
+        List<String> characters = null;
+        if (movieRepository.existsById(id)) {
+            characters = movieRepository.findById(id).get().charactersGetter();
+            status = HttpStatus.OK;
+        } else {
+            status = HttpStatus.NOT_FOUND;
+        }
+        return new ResponseEntity<>(characters, status);
+    }
+
     // Modify movie by Id
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Movie> modifyMovie(@PathVariable long id, @RequestBody Movie newMovie) {
+    public ResponseEntity<Movie> updateMovie(@PathVariable long id, @RequestBody Movie newMovie) {
         Movie returnMovie = new Movie();
         HttpStatus status;
         if (id != newMovie.getMovieId()) {
@@ -66,9 +82,8 @@ public class MovieController {
         if (movieRepository.existsById(id)) {
             movieRepository.deleteById(id);
         }
+        // TODO add else statement for id not found
         HttpStatus status = HttpStatus.NO_CONTENT;
         return new ResponseEntity<>(null, status);
     }
-
-    // TODO get all characters in a movie
 }
