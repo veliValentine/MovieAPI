@@ -65,7 +65,7 @@ public class Character {
     }
 
     public void setId(long id) {
-        this.characterId = characterId;
+        this.characterId = id;
     }
 
     public String getFullName() {
