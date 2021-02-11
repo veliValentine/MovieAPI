@@ -24,6 +24,10 @@ public class Movie {
     @Column(name = "release_year")
     private int releaseYear;
 
+    /*
+     Should be ManyToMany
+     models.Genre should have a list of movies
+     */
     @OneToMany
     @JoinColumn(name = "genre_id")
     private List<Genre> genres;

@@ -40,7 +40,7 @@ public class Franchise {
     }
 
     public Franchise(String name, String description) {
-        this.franchiseName = franchiseName;
+        this.franchiseName = name;
         this.description = description;
     }
 
@@ -49,7 +49,7 @@ public class Franchise {
     }
 
     public void setId(long id) {
-        this.franchiseId = franchiseId;
+        franchiseId = id;
     }
 
     public String getName() {
@@ -57,7 +57,7 @@ public class Franchise {
     }
 
     public void setName(String name) {
-        this.franchiseName = franchiseName;
+        franchiseName = name;
     }
 
     public String getDescription() {

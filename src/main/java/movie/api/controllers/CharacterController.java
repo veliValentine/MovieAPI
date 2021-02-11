@@ -62,7 +62,6 @@ public class CharacterController {
     }
 
     // delete character by id
-    // should be protected against malicious use. Muhahaha
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Character> removeCharacter(@PathVariable long id) {
         if (characterRepository.existsById(id)) {
