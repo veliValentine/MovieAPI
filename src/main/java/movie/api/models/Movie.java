@@ -37,7 +37,7 @@ public class Movie {
         if(genres != null) {
             return genres.stream()
                     .map(genre -> {
-                        return "/api/vi/genres/" + genre.getGenreId();
+                        return "/api/v1/genres/" + genre.getGenreId();
                     }).collect(Collectors.toList());
         }
         return null;
