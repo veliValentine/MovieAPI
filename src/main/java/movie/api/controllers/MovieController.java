@@ -70,6 +70,5 @@ public class MovieController {
         return new ResponseEntity<>(null, status);
     }
 
-
-    // get all characters in a movie
+    // TODO get all characters in a movie
 }
