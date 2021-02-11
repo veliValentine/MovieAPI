@@ -7,41 +7,65 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "movie")
+@Table(name = "movies")
 public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "movie_id")
+    private long movieId;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "movie_title")
+    private String movieTitle;
 
     @Column(name = "director")
     private String director;
 
-    @Column(name = "year")
+    @Column(name = "release_year")
     private int releaseYear;
 
-    @Column(name = "genres")
-    private String genres;
+    /*
+     Should be ManyToMany
+     models.Genre should have a list of movies
+     */
+    @OneToMany
+    @JoinColumn(name = "genre_id")
+    private List<Genre> genres;
 
-    @Column(name = "picture")
-    private String pictureSrc;
+    @JsonGetter("genres")
+    public List<String> genreGetter() {
+        if(genres != null) {
+            return genres.stream()
+                    .map(genre -> {
+                        return "/api/vi/genres/" + genre.getGenreId();
+                    }).collect(Collectors.toList());
+        }
+        return null;
+    }
 
-    @Column(name = "trailer")
+    @Column(name = "movie_picture_src")
+    private String moviePictureSrc;
+
+    @Column(name = "trailer_uri")
     private String trailerURI;
 
+    @ManyToOne
+    @JoinColumn(name = "franchise_id")
+    private Franchise franchise;
 
-    //@ManyToMany(mappedBy = "")
-    //private List<Character> characters;
+    @JsonGetter("franchise")
+    public String franchise() {
+        if(franchise != null) {
+            return "/api/v1/franchise/" + franchise.getId();
+        } else {
+            return null;
+        }
+    }
 
-    //@ManyToOne
-    //@JoinColumn(name = "")
-    private long franchiseId;
+    @ManyToMany(mappedBy = "movies")
+    private List<Character> characters;
 
-    /*
-    @JsonGetter("")
+    @JsonGetter("characters")
     public List<String> charactersGetter(){
         if(characters != null){
             return characters.stream()
@@ -51,35 +75,34 @@ public class Movie {
         }
         return null;
     }
-    */
 
     public Movie() {
     }
 
-    public Movie(String title, String director, int releaseYear, String genres, String pictureSrc, String trailerURI) {
-        this.title = title;
+    public Movie(String movieTitle, String director, int releaseYear, List<Genre> genres, String moviePictureSrc, String trailerURI) {
+        this.movieTitle = movieTitle;
         this.director = director;
         this.releaseYear = releaseYear;
         this.genres = genres;
-        this.pictureSrc = pictureSrc;
+        this.moviePictureSrc = moviePictureSrc;
         this.trailerURI = trailerURI;
     }
 
     // Getter and setters
-    public long getId() {
-        return id;
+    public long getMovieId() {
+        return movieId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setMovieId(long id) {
+        this.movieId = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getMovieTitle() {
+        return movieTitle;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setMovieTitle(String title) {
+        this.movieTitle = title;
     }
 
     public String getDirector() {
@@ -98,20 +121,20 @@ public class Movie {
         this.releaseYear = releaseYear;
     }
 
-    public String getGenres() {
+    public List<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(String genres) {
+    public void setGenres(List<Genre> genres) {
         this.genres = genres;
     }
 
-    public String getPictureSrc() {
-        return pictureSrc;
+    public String getMoviePictureSrc() {
+        return moviePictureSrc;
     }
 
-    public void setPictureSrc(String pictureSrc) {
-        this.pictureSrc = pictureSrc;
+    public void setMoviePictureSrc(String pictureSrc) {
+        this.moviePictureSrc = pictureSrc;
     }
 
     public String getTrailerURI() {

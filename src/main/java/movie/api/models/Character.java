@@ -1,61 +1,71 @@
 package movie.api.models;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "character")
+@Table(name = "characters")
 public class Character {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "character_id")
+    private long characterId;
 
-    @Column(name = "fullName")
+    @Column(name = "full_name")
     private String fullName;
 
     @Column(name = "alias")
     private String alias;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private Gender gender;
 
-    @Column(name = "picture")
-    private String pictureSrc;
+    @Column(name = "character_picture_src")
+    private String characterPictureSrc;
 
-    //@ManyToMany(mappedBy = "")
-    //private List<Movie> movies;
-    /*
-    @JsonGetter("")
+    @ManyToMany
+    @JoinTable(
+            name = "character_movie",
+            joinColumns = {@JoinColumn(name = "character_id")},
+            inverseJoinColumns = {@JoinColumn(name = "movie_id")}
+    )
+    private List<Movie> movies;
+
+    @JsonGetter("movies")
     public List<String> moviesGetter() {
         if(movies != null){
             return movies.stream()
                     .map(movie -> {
-                        return "/api/v1/movies/" + movie.getId();
+                        return "/api/v1/movies/" + movie.getMovieId();
                     }).collect(Collectors.toList());
         }
         return null;
     }
-    */
+
 
 
     public Character() {
     }
 
-    public Character(String fullName, String alias, Gender gender, String pictureSrc) {
+    public Character(String fullName, String alias, Gender gender, String characterPictureSrc) {
         this.fullName = fullName;
         this.alias = alias;
         this.gender = gender;
-        this.pictureSrc = pictureSrc;
+        this.characterPictureSrc = characterPictureSrc;
     }
 
     // Getter and setters
     public long getId() {
-        return id;
+        return characterId;
     }
 
     public void setId(long id) {
-        this.id = id;
+        characterId = id;
     }
 
     public String getFullName() {
@@ -82,11 +92,11 @@ public class Character {
         this.gender = gender;
     }
 
-    public String getPictureSrc() {
-        return pictureSrc;
+    public String getCharacterPictureSrc() {
+        return characterPictureSrc;
     }
 
-    public void setPictureSrc(String pictureSrc) {
-        this.pictureSrc = pictureSrc;
+    public void setCharacterPictureSrc(String pictureSrc) {
+        this.characterPictureSrc = pictureSrc;
     }
 }
