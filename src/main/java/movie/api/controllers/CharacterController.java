@@ -7,13 +7,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static movie.api.controllers.ControllerHelper.BASE_URI_V1;
 import static movie.api.controllers.ControllerHelper.notEqualIds;
 import static movie.api.controllers.ControllerHelper.equalIds;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = ControllerHelper.BASE_URI_V1 + "/characters")
+@RequestMapping(value = BASE_URI_V1 + "/characters")
 public class CharacterController {
 
     @Autowired
@@ -66,11 +67,13 @@ public class CharacterController {
     // delete character by id
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Character> removeCharacter(@PathVariable long id) {
+        HttpStatus status;
         if (characterExists(id)) {
             characterRepository.deleteById(id);
+            status = HttpStatus.NO_CONTENT;
+        } else {
+            status = HttpStatus.NOT_FOUND;
         }
-        // TODO add else statement for id not found
-        HttpStatus status = HttpStatus.NO_CONTENT;
         return new ResponseEntity<>(null, status);
     }
 

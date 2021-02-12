@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static movie.api.controllers.ControllerHelper.BASE_URI_V1;
+
 @RestController
-@RequestMapping(value = ControllerHelper.BASE_URI_V1)
+@RequestMapping(value = BASE_URI_V1)
 public class HealthController {
 
     @GetMapping(value = "/health")
