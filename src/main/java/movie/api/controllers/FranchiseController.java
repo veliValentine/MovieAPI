@@ -5,9 +5,7 @@ import movie.api.repositories.FranchiseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +23,12 @@ public class FranchiseController {
         List<Franchise> franchises = franchiseRepository.findAll();
         HttpStatus status = HttpStatus.OK;
         return new ResponseEntity<>(franchises, status);
+    }
+
+    @PostMapping
+    public ResponseEntity<Franchise> createFranchise(@RequestBody Franchise newFranchise) {
+        Franchise franchise = franchiseRepository.save(newFranchise);
+        HttpStatus status = HttpStatus.CREATED;
+        return new ResponseEntity<>(franchise, status);
     }
 }
