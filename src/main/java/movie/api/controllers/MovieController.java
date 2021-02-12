@@ -1,5 +1,6 @@
 package movie.api.controllers;
 
+import movie.api.models.Character;
 import movie.api.models.Movie;
 import movie.api.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,11 +54,11 @@ public class MovieController {
     // get characters for a movie
     // returns a list of URIs to each character
     @GetMapping(value = "/{id}/characters")
-    public ResponseEntity<List<String>> getMovieCharacters(@PathVariable long id) {
+    public ResponseEntity<List<Character>> getMovieCharacters(@PathVariable long id) {
         HttpStatus status;
-        List<String> characters = null;
+        List<Character> characters = null;
         if (movieExists(id)) {
-            characters = findMovieById(id).charactersGetter();
+            characters = findMovieById(id).getCharacters();
             status = HttpStatus.OK;
         } else {
             status = HttpStatus.NOT_FOUND;

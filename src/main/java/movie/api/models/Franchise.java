@@ -21,6 +21,14 @@ public class Franchise {
     @Column(name = "description")
     private String description;
 
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+    }
+
     @OneToMany
     @JoinColumn(name = "franchise_id")
     private List<Movie> movies;

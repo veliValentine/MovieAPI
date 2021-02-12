@@ -3,6 +3,7 @@ package movie.api.models;
 import com.fasterxml.jackson.annotation.JsonGetter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,11 +35,11 @@ public class Character {
             joinColumns = {@JoinColumn(name = "character_id")},
             inverseJoinColumns = {@JoinColumn(name = "movie_id")}
     )
-    private List<Movie> movies;
+    private List<Movie> movies = new ArrayList<>();
 
     @JsonGetter("movies")
     public List<String> moviesGetter() {
-        if(movies != null){
+        if (movies != null) {
             return movies.stream()
                     .map(movie -> {
                         return "/api/v1/movies/" + movie.getMovieId();
@@ -46,8 +47,6 @@ public class Character {
         }
         return null;
     }
-
-
 
     public Character() {
     }
@@ -95,5 +94,9 @@ public class Character {
 
     public void setCharacterPictureSrc(String pictureSrc) {
         this.characterPictureSrc = pictureSrc;
+    }
+
+    public void addMovie(Movie movie) {
+        movies.add(movie);
     }
 }
