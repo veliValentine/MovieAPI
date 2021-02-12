@@ -110,7 +110,7 @@ public class MovieController {
     @Autowired
     private CharacterRepository characterRepository;
 
-    @PutMapping (value = "/{movieId}/add/character/{characterId}")
+    @PutMapping(value = "/{movieId}/add/character/{characterId}")
     public ResponseEntity<Object> addCharacterToMovie(@PathVariable long movieId, @PathVariable long characterId) {
         Character character = findCharacterById(characterId);
         Movie movie = findMovieById(movieId);
@@ -138,5 +138,38 @@ public class MovieController {
             return characterRepository.findById(id).get();
         }
         return new Character();
+    }
+
+    @Autowired
+    private FranchiseRepository franchiseRepository;
+
+    @PutMapping(value = "/{movieId}/add/franchise/{franchiseId}")
+    public ResponseEntity<Object> addFranchiseToMovie(@PathVariable long movieId, @PathVariable long franchiseId) {
+        Franchise franchise = findFranchiseById(franchiseId);
+        Movie movie = findMovieById(movieId);
+        HttpStatus status;
+        if (notEqualIds(franchise.getFranchiseId(), franchiseId)) {
+            status = HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(franchise, status);
+        }
+        if (notEqualIds(movie.getMovieId(), movieId)) {
+            status = HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(movie, status);
+        }
+        movie.setFranchise(franchise);
+        movie = movieRepository.save(movie);
+        status = HttpStatus.NO_CONTENT;
+        return new ResponseEntity<>(movie, status);
+    }
+
+    private boolean franchiseExistsById(long id) {
+        return franchiseRepository.existsById(id);
+    }
+
+    private Franchise findFranchiseById(long id) {
+        if (franchiseExistsById(id)) {
+            return franchiseRepository.findById(id).get();
+        }
+        return new Franchise();
     }
 }
