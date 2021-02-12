@@ -26,10 +26,6 @@ public class Genre {
         return genreId;
     }
 
-    public void setGenreId(long genreId) {
-        this.genreId = genreId;
-    }
-
     public String getGenreName() {
         return genreName;
     }

@@ -64,10 +64,6 @@ public class Character {
         return characterId;
     }
 
-    public void setId(long id) {
-        characterId = id;
-    }
-
     public String getFullName() {
         return fullName;
     }

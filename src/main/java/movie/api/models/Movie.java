@@ -93,16 +93,12 @@ public class Movie {
         return movieId;
     }
 
-    public void setMovieId(long id) {
-        this.movieId = id;
-    }
-
     public String getMovieTitle() {
         return movieTitle;
     }
 
-    public void setMovieTitle(String title) {
-        this.movieTitle = title;
+    public void setMovieTitle(String movieTitle) {
+        this.movieTitle = movieTitle;
     }
 
     public String getDirector() {
