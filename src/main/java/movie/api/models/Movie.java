@@ -62,6 +62,14 @@ public class Movie {
         }
     }
 
+    public List<Character> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(List<Character> characters) {
+        this.characters = characters;
+    }
+
     @ManyToMany(mappedBy = "movies")
     private List<Character> characters;
 
