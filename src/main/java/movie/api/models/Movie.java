@@ -3,6 +3,7 @@ package movie.api.models;
 import com.fasterxml.jackson.annotation.JsonGetter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,7 +72,7 @@ public class Movie {
     }
 
     @ManyToMany(mappedBy = "movies")
-    private List<Character> characters;
+    private List<Character> characters = new ArrayList<>();
 
     @JsonGetter("characters")
     public List<String> charactersGetter(){
