@@ -4,6 +4,7 @@ import movie.api.models.Character;
 import movie.api.models.Franchise;
 import movie.api.models.Movie;
 import movie.api.repositories.FranchiseRepository;
+import movie.api.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +70,7 @@ public class FranchiseController {
         if (equalIds(franchise.getFranchiseId(), id)) {
             // TODO get all characters for franchise using franchiseRepository
             characters = new ArrayList<>();
-            for(Movie movie: franchise.getMovies()){
+            for (Movie movie : franchise.getMovies()) {
                 characters.addAll(movie.getCharacters());
             }
             status = HttpStatus.I_AM_A_TEAPOT;
@@ -113,5 +114,38 @@ public class FranchiseController {
             return franchiseRepository.findById(id).get();
         }
         return new Franchise();
+    }
+
+    @Autowired
+    private MovieRepository movieRepository;
+
+    @PutMapping(value = "/{franchiseId}/add/movie/{movieId}")
+    public ResponseEntity<Object> addMovieToFranchise(@PathVariable long franchiseId, @PathVariable long movieId) {
+        Franchise franchise = findFranchiseById(franchiseId);
+        Movie movie = findMovieById(movieId);
+        HttpStatus status;
+        if (notEqualIds(franchise.getFranchiseId(), franchiseId)) {
+            status = HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(franchise, status);
+        }
+        if (notEqualIds(movie.getMovieId(), movieId)) {
+            status = HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(movie, status);
+        }
+        franchise.addMovie(movie);
+        franchise = franchiseRepository.save(franchise);
+        status = HttpStatus.NO_CONTENT;
+        return new ResponseEntity<>(franchise, status);
+    }
+
+    private boolean movieExists(long id) {
+        return movieRepository.existsById(id);
+    }
+
+    private Movie findMovieById(long id) {
+        if (movieExists(id)) {
+            return movieRepository.findById(id).get();
+        }
+        return new Movie();
     }
 }

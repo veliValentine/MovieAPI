@@ -94,7 +94,7 @@ public class CharacterController {
     @Autowired
     private MovieRepository movieRepository;
 
-    @PutMapping(value = "/{characterId}/{movieId}")
+    @PutMapping(value = "/{characterId}/add/movie/{movieId}")
     public ResponseEntity<Object> addMovieToCharacter(@PathVariable long characterId, @PathVariable long movieId) {
         Character character = findCharacterById(characterId);
         Movie movie = findMovieById(movieId);
