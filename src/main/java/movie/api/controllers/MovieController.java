@@ -107,7 +107,6 @@ public class MovieController {
         return new Movie();
     }
 
-
     @Autowired
     private CharacterRepository characterRepository;
 
