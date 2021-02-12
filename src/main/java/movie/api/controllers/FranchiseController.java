@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static movie.api.controllers.ControllerHelper.BASE_URI_V1;
-import static movie.api.controllers.ControllerHelper.equalIds;
+import static movie.api.controllers.ControllerHelper.*;
 
 @RestController
 @RequestMapping(value = BASE_URI_V1 + "/franchise")
@@ -72,6 +71,19 @@ public class FranchiseController {
             status = HttpStatus.NOT_FOUND;
         }
         return new ResponseEntity<>(characters, status);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Franchise> updateFranchise(@PathVariable long id, @RequestBody Franchise newFranchise) {
+        Franchise franchise = new Franchise();
+        HttpStatus status;
+        if (notEqualIds(newFranchise.getId(), id)) {
+            status = HttpStatus.BAD_REQUEST;
+            return new ResponseEntity<>(franchise, status);
+        }
+        franchise = franchiseRepository.save(newFranchise);
+        status = HttpStatus.NO_CONTENT;
+        return new ResponseEntity<>(franchise, status);
     }
 
     private Franchise findFranchiseById(long id) {
