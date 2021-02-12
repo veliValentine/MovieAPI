@@ -48,16 +48,12 @@ public class Franchise {
         return franchiseId;
     }
 
-    public void setId(long id) {
-        franchiseId = id;
-    }
-
     public String getName() {
         return franchiseName;
     }
 
-    public void setName(String name) {
-        franchiseName = name;
+    public void setName(String franchiseName) {
+        this.franchiseName = franchiseName;
     }
 
     public String getDescription() {
