@@ -3,8 +3,8 @@ package movie.api.models;
 import com.fasterxml.jackson.annotation.JsonGetter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "characters")
@@ -34,30 +34,20 @@ public class Character {
             joinColumns = {@JoinColumn(name = "character_id")},
             inverseJoinColumns = {@JoinColumn(name = "movie_id")}
     )
-    private List<Movie> movies;
-
-    @JsonGetter("movies")
-    public List<String> moviesGetter() {
-        if(movies != null){
-            return movies.stream()
-                    .map(movie -> {
-                        return "/api/v1/movies/" + movie.getMovieId();
-                    }).collect(Collectors.toList());
-        }
-        return null;
-    }
-
-
+    private List<Movie> movies = new ArrayList<>();
 
     public Character() {
     }
 
-    public Character(String fullName, String alias, Gender gender, String characterPictureSrc, List<Movie> movies) {
+    public Character(String fullName, String alias, Gender gender, String characterPictureSrc) {
         this.fullName = fullName;
         this.alias = alias;
         this.gender = gender;
         this.characterPictureSrc = characterPictureSrc;
-        this.movies = movies;
+    }
+
+    public void addMovie(Movie movie) {
+        movies.add(movie);
     }
 
     // Getter and setters
