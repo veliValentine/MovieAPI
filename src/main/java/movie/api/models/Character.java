@@ -51,7 +51,8 @@ public class Character {
     }
 
     // Getter and setters
-    public long getId() {
+
+    public long getCharacterId() {
         return characterId;
     }
 
@@ -83,7 +84,11 @@ public class Character {
         return characterPictureSrc;
     }
 
-    public void setCharacterPictureSrc(String pictureSrc) {
-        this.characterPictureSrc = pictureSrc;
+    public void setCharacterPictureSrc(String characterPictureSrc) {
+        this.characterPictureSrc = characterPictureSrc;
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
     }
 }

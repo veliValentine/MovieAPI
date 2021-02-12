@@ -45,7 +45,7 @@ public class Movie {
     @JsonGetter("franchise")
     public String franchise() {
         if(franchise != null) {
-            return "/api/v1/franchise/" + franchise.getId();
+            return "/api/v1/franchise/" + franchise.getFranchiseId();
         } else {
             return null;
         }
@@ -75,6 +75,7 @@ public class Movie {
     }
 
     // Getter and setters
+
     public long getMovieId() {
         return movieId;
     }
@@ -115,8 +116,8 @@ public class Movie {
         return moviePictureSrc;
     }
 
-    public void setMoviePictureSrc(String pictureSrc) {
-        this.moviePictureSrc = pictureSrc;
+    public void setMoviePictureSrc(String moviePictureSrc) {
+        this.moviePictureSrc = moviePictureSrc;
     }
 
     public String getTrailerURI() {
@@ -125,5 +126,17 @@ public class Movie {
 
     public void setTrailerURI(String trailerURI) {
         this.trailerURI = trailerURI;
+    }
+
+    public Franchise getFranchise() {
+        return franchise;
+    }
+
+    public void setFranchise(Franchise franchise) {
+        this.franchise = franchise;
+    }
+
+    public List<Character> getCharacters() {
+        return characters;
     }
 }

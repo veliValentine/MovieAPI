@@ -44,4 +44,8 @@ public class Genre {
     public void setGenreName(String genreName) {
         this.genreName = genreName;
     }
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
 }

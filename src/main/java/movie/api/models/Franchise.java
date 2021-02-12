@@ -37,15 +37,15 @@ public class Franchise {
         movies.add(movie);
     }
 
-    public long getId() {
+    public long getFranchiseId() {
         return franchiseId;
     }
 
-    public String getName() {
+    public String getFranchiseName() {
         return franchiseName;
     }
 
-    public void setName(String franchiseName) {
+    public void setFranchiseName(String franchiseName) {
         this.franchiseName = franchiseName;
     }
 
@@ -55,5 +55,9 @@ public class Franchise {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
     }
 }
