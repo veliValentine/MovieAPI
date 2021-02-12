@@ -17,8 +17,7 @@ public class Genre {
     public Genre() {
     }
 
-    public Genre(long genreId, String genreName) {
-        this.genreId = genreId;
+    public Genre(String genreName) {
         this.genreName = genreName;
     }
 
