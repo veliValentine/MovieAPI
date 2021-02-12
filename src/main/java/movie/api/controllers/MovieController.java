@@ -1,8 +1,10 @@
 package movie.api.controllers;
 
 import movie.api.models.Character;
+import movie.api.models.Franchise;
 import movie.api.models.Movie;
 import movie.api.repositories.CharacterRepository;
+import movie.api.repositories.FranchiseRepository;
 import movie.api.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -109,7 +111,7 @@ public class MovieController {
     @Autowired
     private CharacterRepository characterRepository;
 
-    @GetMapping(value = "/{movieId}/add/character/{characterId}")
+    @PutMapping (value = "/{movieId}/add/character/{characterId}")
     public ResponseEntity<Object> addCharacterToMovie(@PathVariable long movieId, @PathVariable long characterId) {
         Character character = findCharacterById(characterId);
         Movie movie = findMovieById(movieId);
