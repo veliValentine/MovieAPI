@@ -2,6 +2,7 @@ package movie.api.controllers;
 
 import movie.api.models.Character;
 import movie.api.models.Movie;
+import movie.api.repositories.CharacterRepository;
 import movie.api.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -102,5 +103,39 @@ public class MovieController {
             return movieRepository.findById(id).get();
         }
         return new Movie();
+    }
+
+
+    @Autowired
+    private CharacterRepository characterRepository;
+
+    @GetMapping(value = "/{movieId}/add/character/{characterId}")
+    public ResponseEntity<Object> addCharacterToMovie(@PathVariable long movieId, @PathVariable long characterId) {
+        Character character = findCharacterById(characterId);
+        Movie movie = findMovieById(movieId);
+        HttpStatus status;
+        if (notEqualIds(character.getCharacterId(), characterId)) {
+            status = HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(character, status);
+        }
+        if (notEqualIds(movie.getMovieId(), movieId)) {
+            status = HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(movie, status);
+        }
+        movie.addCharacter(character);
+        movie = movieRepository.save(movie);
+        status = HttpStatus.NO_CONTENT;
+        return new ResponseEntity<>(movie, status);
+    }
+
+    private boolean characterExists(long id) {
+        return characterRepository.existsById(id);
+    }
+
+    private Character findCharacterById(long id) {
+        if (characterExists(id)) {
+            return characterRepository.findById(id).get();
+        }
+        return new Character();
     }
 }
