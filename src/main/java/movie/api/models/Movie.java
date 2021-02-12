@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "movies")
