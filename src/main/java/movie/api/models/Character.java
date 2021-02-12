@@ -51,16 +51,20 @@ public class Character {
     public Character() {
     }
 
-    public Character(String fullName, String alias, Gender gender, String characterPictureSrc, List<Movie> movies) {
+    public Character(String fullName, String alias, Gender gender, String characterPictureSrc) {
         this.fullName = fullName;
         this.alias = alias;
         this.gender = gender;
         this.characterPictureSrc = characterPictureSrc;
-        this.movies = movies;
+    }
+
+    public void addMovie(Movie movie) {
+        movies.add(movie);
     }
 
     // Getter and setters
-    public long getId() {
+
+    public long getCharacterId() {
         return characterId;
     }
 
@@ -92,11 +96,11 @@ public class Character {
         return characterPictureSrc;
     }
 
-    public void setCharacterPictureSrc(String pictureSrc) {
-        this.characterPictureSrc = pictureSrc;
+    public void setCharacterPictureSrc(String characterPictureSrc) {
+        this.characterPictureSrc = characterPictureSrc;
     }
 
-    public void addMovie(Movie movie) {
-        movies.add(movie);
+    public List<Movie> getMovies() {
+        return movies;
     }
 }
