@@ -52,11 +52,12 @@ public class Character {
     public Character() {
     }
 
-    public Character(String fullName, String alias, Gender gender, String characterPictureSrc) {
+    public Character(String fullName, String alias, Gender gender, String characterPictureSrc, List<Movie> movies) {
         this.fullName = fullName;
         this.alias = alias;
         this.gender = gender;
         this.characterPictureSrc = characterPictureSrc;
+        this.movies = movies;
     }
 
     // Getter and setters

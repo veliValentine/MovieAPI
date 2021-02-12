@@ -1,6 +1,10 @@
 package movie.api.models;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+
 import javax.persistence.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "genres")
@@ -14,11 +18,24 @@ public class Genre {
     @Column(name = "genre_name")
     private String genreName;
 
+    @ManyToMany(mappedBy = "genres")
+    private List<Movie> movies;
+
+    @JsonGetter("movies")
+    public List<String> moviesGetter() {
+        if(movies != null) {
+            return movies.stream()
+                    .map(movie -> {
+                        return "/api/v1/movies/" + movie.getMovieId();
+                    }).collect(Collectors.toList());
+        }
+        return null;
+    }
+
     public Genre() {
     }
 
-    public Genre(long genreId, String genreName) {
-        this.genreId = genreId;
+    public Genre(String genreName) {
         this.genreName = genreName;
     }
 

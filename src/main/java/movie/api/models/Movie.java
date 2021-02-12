@@ -28,8 +28,12 @@ public class Movie {
      Should be ManyToMany
      models.Genre should have a list of movies
      */
-    @OneToMany
-    @JoinColumn(name = "genre_id")
+    @ManyToMany
+    @JoinTable(
+            name = "movie_genre",
+            joinColumns = {@JoinColumn(name = "movie_id")},
+            inverseJoinColumns = {@JoinColumn(name = "genre_id")}
+    )
     private List<Genre> genres;
 
     @JsonGetter("genres")
@@ -79,13 +83,15 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(String movieTitle, String director, int releaseYear, List<Genre> genres, String moviePictureSrc, String trailerURI) {
+    public Movie(String movieTitle, String director, int releaseYear, List<Genre> genres, String moviePictureSrc, String trailerURI, Franchise franchise, List<Character> characters) {
         this.movieTitle = movieTitle;
         this.director = director;
         this.releaseYear = releaseYear;
         this.genres = genres;
         this.moviePictureSrc = moviePictureSrc;
         this.trailerURI = trailerURI;
+        this.franchise = franchise;
+        this.characters = characters;
     }
 
     // Getter and setters
