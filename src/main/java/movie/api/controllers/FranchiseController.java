@@ -59,7 +59,20 @@ public class FranchiseController {
         return new ResponseEntity<>(movies, status);
     }
 
-    //@GetMapping(value = "")
+    @GetMapping(value = "/{id}/characters")
+    public ResponseEntity<List<String>> getAllFranchiseCharacters(@PathVariable long id) {
+        Franchise franchise = findFranchiseById(id);
+        List<String> characters = null;
+        HttpStatus status;
+        if (equalIds(franchise.getId(), id)) {
+            // TODO get all characters for franchise using franchiseRepository
+            characters = franchise.moviesGetter();
+            status = HttpStatus.I_AM_A_TEAPOT;
+        } else {
+            status = HttpStatus.NOT_FOUND;
+        }
+        return new ResponseEntity<>(characters, status);
+    }
 
     private Franchise findFranchiseById(long id) {
         if (franchiseRepository.existsById(id)) {
