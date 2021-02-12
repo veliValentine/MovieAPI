@@ -39,7 +39,7 @@ public class FranchiseController {
     public ResponseEntity<Franchise> getFranchise(@PathVariable long id) {
         Franchise franchise = findFranchiseById(id);
         HttpStatus status;
-        if (equalIds(franchise.getId(), id)) {
+        if (equalIds(franchise.getFranchiseId(), id)) {
             status = HttpStatus.OK;
         } else {
             status = HttpStatus.NOT_FOUND;
@@ -52,7 +52,7 @@ public class FranchiseController {
         Franchise franchise = findFranchiseById(id);
         List<Movie> movies = null;
         HttpStatus status;
-        if (equalIds(franchise.getId(), id)) {
+        if (equalIds(franchise.getFranchiseId(), id)) {
             movies = franchise.getMovies();
             status = HttpStatus.OK;
         } else {
@@ -66,7 +66,7 @@ public class FranchiseController {
         Franchise franchise = findFranchiseById(id);
         List<Character> characters = null;
         HttpStatus status;
-        if (equalIds(franchise.getId(), id)) {
+        if (equalIds(franchise.getFranchiseId(), id)) {
             // TODO get all characters for franchise using franchiseRepository
             characters = new ArrayList<>();
             for(Movie movie: franchise.getMovies()){
@@ -83,7 +83,7 @@ public class FranchiseController {
     public ResponseEntity<Franchise> updateFranchise(@PathVariable long id, @RequestBody Franchise newFranchise) {
         Franchise franchise = new Franchise();
         HttpStatus status;
-        if (notEqualIds(newFranchise.getId(), id)) {
+        if (notEqualIds(newFranchise.getFranchiseId(), id)) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<>(franchise, status);
         }

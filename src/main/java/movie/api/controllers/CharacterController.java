@@ -44,7 +44,7 @@ public class CharacterController {
     public ResponseEntity<Character> getCharacterById(@PathVariable long id) {
         HttpStatus status;
         Character character = findCharacterById(id);
-        if (equalIds(id, character.getId())) {
+        if (equalIds(id, character.getCharacterId())) {
             status = HttpStatus.OK;
         } else {
             status = HttpStatus.NOT_FOUND;
@@ -58,7 +58,7 @@ public class CharacterController {
         Character returnCharacter = new Character();
         HttpStatus status;
         // check that path id is the same as character id
-        if (notEqualIds(id, newCharacter.getId())) {
+        if (notEqualIds(id, newCharacter.getCharacterId())) {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<>(returnCharacter, status);
         }
@@ -99,7 +99,7 @@ public class CharacterController {
         Character character = findCharacterById(characterId);
         Movie movie = findMovieById(movieId);
         HttpStatus status;
-        if (notEqualIds(character.getId(), characterId)) {
+        if (notEqualIds(character.getCharacterId(), characterId)) {
             status = HttpStatus.NOT_FOUND;
             return new ResponseEntity<>(character, status);
         }

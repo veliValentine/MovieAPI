@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "movies")
@@ -25,24 +24,13 @@ public class Movie {
     @Column(name = "release_year")
     private int releaseYear;
 
-    /*
-     Should be ManyToMany
-     models.Genre should have a list of movies
-     */
-    @OneToMany
-    @JoinColumn(name = "genre_id")
-    private List<Genre> genres;
-
-    @JsonGetter("genres")
-    public List<String> genreGetter() {
-        if(genres != null) {
-            return genres.stream()
-                    .map(genre -> {
-                        return "/api/v1/genres/" + genre.getGenreId();
-                    }).collect(Collectors.toList());
-        }
-        return null;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "movie_genre",
+            joinColumns = {@JoinColumn(name = "movie_id")},
+            inverseJoinColumns = {@JoinColumn(name = "genre_id")}
+    )
+    private List<Genre> genres = new ArrayList<>();
 
     @Column(name = "movie_picture_src")
     private String moviePictureSrc;
@@ -57,7 +45,7 @@ public class Movie {
     @JsonGetter("franchise")
     public String franchise() {
         if(franchise != null) {
-            return "/api/v1/franchise/" + franchise.getId();
+            return "/api/v1/franchise/" + franchise.getFranchiseId();
         } else {
             return null;
         }
@@ -74,17 +62,6 @@ public class Movie {
     @ManyToMany(mappedBy = "movies")
     private List<Character> characters = new ArrayList<>();
 
-    @JsonGetter("characters")
-    public List<String> charactersGetter(){
-        if(characters != null){
-            return characters.stream()
-                    .map(character -> {
-                        return "/api/v1/characters/" + character.getId();
-                    }).collect(Collectors.toList());
-        }
-        return null;
-    }
-
     public Movie() {
     }
 
@@ -97,7 +74,16 @@ public class Movie {
         this.trailerURI = trailerURI;
     }
 
+    public void addCharacter(Character character) {
+        characters.add(character);
+    }
+
+    public void addGenre(Genre genre) {
+        genres.add(genre);
+    }
+
     // Getter and setters
+
     public long getMovieId() {
         return movieId;
     }
@@ -138,8 +124,8 @@ public class Movie {
         return moviePictureSrc;
     }
 
-    public void setMoviePictureSrc(String pictureSrc) {
-        this.moviePictureSrc = pictureSrc;
+    public void setMoviePictureSrc(String moviePictureSrc) {
+        this.moviePictureSrc = moviePictureSrc;
     }
 
     public String getTrailerURI() {
@@ -148,5 +134,13 @@ public class Movie {
 
     public void setTrailerURI(String trailerURI) {
         this.trailerURI = trailerURI;
+    }
+
+    public Franchise getFranchise() {
+        return franchise;
+    }
+
+    public void setFranchise(Franchise franchise) {
+        this.franchise = franchise;
     }
 }

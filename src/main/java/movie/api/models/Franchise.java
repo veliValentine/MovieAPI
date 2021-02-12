@@ -3,8 +3,8 @@ package movie.api.models;
 import com.fasterxml.jackson.annotation.JsonGetter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "franchises")
@@ -31,18 +31,7 @@ public class Franchise {
 
     @OneToMany
     @JoinColumn(name = "franchise_id")
-    private List<Movie> movies;
-
-    @JsonGetter("movies")
-    public List<String> moviesGetter() {
-        if(movies != null){
-            return movies.stream()
-                    .map(movie -> {
-                        return "/api/v1/movies/" + movie.getMovieId();
-                    }).collect(Collectors.toList());
-        }
-        return null;
-    }
+    private List<Movie> movies = new ArrayList<>();
 
     public Franchise() {
     }
@@ -52,15 +41,19 @@ public class Franchise {
         this.description = description;
     }
 
-    public long getId() {
+    public void addMovie(Movie movie) {
+        movies.add(movie);
+    }
+
+    public long getFranchiseId() {
         return franchiseId;
     }
 
-    public String getName() {
+    public String getFranchiseName() {
         return franchiseName;
     }
 
-    public void setName(String franchiseName) {
+    public void setFranchiseName(String franchiseName) {
         this.franchiseName = franchiseName;
     }
 
