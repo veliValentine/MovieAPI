@@ -1,6 +1,7 @@
 package movie.api.controllers;
 
 import movie.api.models.Franchise;
+import movie.api.models.Movie;
 import movie.api.repositories.FranchiseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,12 +46,12 @@ public class FranchiseController {
     }
 
     @GetMapping(value = "/{id}/movies")
-    public ResponseEntity<List<String>> getAllFranchiseMovies(@PathVariable long id) {
+    public ResponseEntity<List<Movie>> getAllFranchiseMovies(@PathVariable long id) {
         Franchise franchise = findFranchiseById(id);
-        List<String> movies = null;
+        List<Movie> movies = null;
         HttpStatus status;
         if (equalIds(franchise.getId(), id)) {
-            movies = franchise.moviesGetter();
+            movies = franchise.getMovies();
             status = HttpStatus.OK;
         } else {
             status = HttpStatus.NOT_FOUND;
