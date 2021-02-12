@@ -82,11 +82,13 @@ public class MovieController {
     // Delete movie by id
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Movie> deleteMovie(@PathVariable long id) {
+        HttpStatus status;
         if (movieExists(id)) {
             movieRepository.deleteById(id);
+            status = HttpStatus.NO_CONTENT;
+        } else {
+            status = HttpStatus.NOT_FOUND;
         }
-        // TODO add else statement for id not found
-        HttpStatus status = HttpStatus.NO_CONTENT;
         return new ResponseEntity<>(null, status);
     }
 

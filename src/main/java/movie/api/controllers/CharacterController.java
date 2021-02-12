@@ -67,11 +67,13 @@ public class CharacterController {
     // delete character by id
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Character> removeCharacter(@PathVariable long id) {
+        HttpStatus status;
         if (characterExists(id)) {
             characterRepository.deleteById(id);
+            status = HttpStatus.NO_CONTENT;
+        } else {
+            status = HttpStatus.NOT_FOUND;
         }
-        // TODO add else statement for id not found
-        HttpStatus status = HttpStatus.NO_CONTENT;
         return new ResponseEntity<>(null, status);
     }
 
