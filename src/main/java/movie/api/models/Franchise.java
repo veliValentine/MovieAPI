@@ -19,8 +19,7 @@ public class Franchise {
     @Column(name = "description")
     private String description;
 
-    @OneToMany
-    @JoinColumn(name = "franchise_id")
+    @OneToMany(mappedBy = "franchise")
     private List<Movie> movies = new ArrayList<>();
 
     @OneToMany

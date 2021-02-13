@@ -114,6 +114,7 @@ public class FranchiseController {
         if (movieAndFranchiseExist) {
             franchise = franchiseRepository.findById(franchiseId).get();
             Movie movie = movieRepository.findById(movieId).get();
+            movie.setFranchise(franchise);
             franchise.addMovie(movie);
             status = HttpStatus.OK;
         } else {
