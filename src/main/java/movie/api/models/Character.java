@@ -1,11 +1,8 @@
 package movie.api.models;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "characters")
@@ -36,6 +33,10 @@ public class Character {
             inverseJoinColumns = {@JoinColumn(name = "movie_id")}
     )
     private List<Movie> movies = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "franchise_id")
+    private Franchise franchise;
 
     public Character() {
     }
@@ -91,5 +92,13 @@ public class Character {
 
     public List<Movie> getMovies() {
         return movies;
+    }
+
+    public Franchise getFranchise() {
+        return franchise;
+    }
+
+    public void setFranchise(Franchise franchise) {
+        this.franchise = franchise;
     }
 }

@@ -1,7 +1,5 @@
 package movie.api.models;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,15 +34,6 @@ public class Movie {
     @ManyToOne
     @JoinColumn(name = "franchise_id")
     private Franchise franchise;
-
-    @JsonGetter("franchise")
-    public String franchise() {
-        if(franchise != null) {
-            return "/api/v1/franchise/" + franchise.getFranchiseId();
-        } else {
-            return null;
-        }
-    }
 
     @ManyToMany(mappedBy = "movies")
     @Column(name = "characters")

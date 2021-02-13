@@ -1,7 +1,5 @@
 package movie.api.models;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,17 +19,13 @@ public class Franchise {
     @Column(name = "description")
     private String description;
 
-    public List<Movie> getMovies() {
-        return movies;
-    }
-
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
-    }
-
     @OneToMany
     @JoinColumn(name = "franchise_id")
     private List<Movie> movies = new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "franchise_id")
+    private List<Character> characters = new ArrayList<>();
 
     public Franchise() {
     }
@@ -43,6 +37,22 @@ public class Franchise {
 
     public void addMovie(Movie movie) {
         movies.add(movie);
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+    }
+
+    public List<Character> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(List<Character> characters) {
+        this.characters = characters;
     }
 
     public long getFranchiseId() {
