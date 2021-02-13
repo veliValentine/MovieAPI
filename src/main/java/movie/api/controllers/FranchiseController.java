@@ -73,7 +73,15 @@ public class FranchiseController {
         HttpStatus status;
         if (franchiseRepository.existsById(id)) {
             Franchise franchise = franchiseRepository.findById(id).get();
-            characters = franchise.getCharacters();
+            List<Movie> movies = franchise.getMovies();
+            for(Movie movie: movies) {
+                List<Character> movieCharacters = movie.getCharacters();
+                for(Character character: movieCharacters) {
+                    if(!characters.contains(character)) {
+                        characters.add(character);
+                    }
+                }
+            }
             status = HttpStatus.OK;
         } else {
             status = HttpStatus.NOT_FOUND;

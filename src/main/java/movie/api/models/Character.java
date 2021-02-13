@@ -1,8 +1,11 @@
 package movie.api.models;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "characters")
@@ -28,11 +31,22 @@ public class Character {
 
     @ManyToMany
     @JoinTable(
-            name = "character_movie",
+            name = "movie_character",
             joinColumns = {@JoinColumn(name = "character_id")},
             inverseJoinColumns = {@JoinColumn(name = "movie_id")}
     )
-    private List<Movie> movies = new ArrayList<>();
+    private List<Movie> movies; // = new ArrayList<>();
+
+    @JsonGetter("movies")
+    public List<String> movieGetter() {
+        if(movies != null) {
+            return movies.stream()
+                    .map(movie -> "/api/v1/movies/" + movie.getMovieId())
+                    .collect(Collectors.toList());
+        } else {
+            return null;
+        }
+    }
 
     @ManyToOne
     @JoinColumn(name = "franchise_id")
@@ -100,5 +114,9 @@ public class Character {
 
     public void setFranchise(Franchise franchise) {
         this.franchise = franchise;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
     }
 }
