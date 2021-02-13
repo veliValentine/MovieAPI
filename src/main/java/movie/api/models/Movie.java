@@ -1,8 +1,11 @@
 package movie.api.models;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "movies")
@@ -35,9 +38,33 @@ public class Movie {
     @JoinColumn(name = "franchise_id")
     private Franchise franchise;
 
-    @ManyToMany(mappedBy = "movies")
-    @Column(name = "characters")
-    private List<Character> characters = new ArrayList<>();
+    @JsonGetter("franchise")
+    public String franchiseGetter() {
+        if(franchise != null) {
+            return "/api/v1/franchises/" + franchise.getFranchiseId();
+        } else {
+            return null;
+        }
+    }
+
+    @ManyToMany
+    @JoinTable(
+            name = "movie_character",
+            joinColumns = {@JoinColumn(name = "movie_id")},
+            inverseJoinColumns = {@JoinColumn(name = "character_id")}
+    )
+    private List<Character> characters; // = new ArrayList<>();
+
+    @JsonGetter("characters")
+    public List<String> characterGetter() {
+        if(characters != null) {
+            return characters.stream()
+                    .map(character -> "/api/v1/characters/" + character.getCharacterId())
+                    .collect(Collectors.toList());
+        } else {
+            return null;
+        }
+    }
 
     public Movie() {
     }
