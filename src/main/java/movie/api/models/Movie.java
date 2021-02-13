@@ -24,13 +24,8 @@ public class Movie {
     @Column(name = "release_year")
     private int releaseYear;
 
-    @ManyToMany
-    @JoinTable(
-            name = "movie_genre",
-            joinColumns = {@JoinColumn(name = "movie_id")},
-            inverseJoinColumns = {@JoinColumn(name = "genre_id")}
-    )
-    private List<Genre> genres = new ArrayList<>();
+    @Column(name = "genres")
+    private String genres;
 
     @Column(name = "movie_picture_src")
     private String moviePictureSrc;
@@ -51,21 +46,14 @@ public class Movie {
         }
     }
 
-    public List<Character> getCharacters() {
-        return characters;
-    }
-
-    public void setCharacters(List<Character> characters) {
-        this.characters = characters;
-    }
-
     @ManyToMany(mappedBy = "movies")
+    @Column(name = "characters")
     private List<Character> characters = new ArrayList<>();
 
     public Movie() {
     }
 
-    public Movie(String movieTitle, String director, int releaseYear, List<Genre> genres, String moviePictureSrc, String trailerURI) {
+    public Movie(String movieTitle, String director, int releaseYear, String genres, String moviePictureSrc, String trailerURI) {
         this.movieTitle = movieTitle;
         this.director = director;
         this.releaseYear = releaseYear;
@@ -76,10 +64,6 @@ public class Movie {
 
     public void addCharacter(Character character) {
         characters.add(character);
-    }
-
-    public void addGenre(Genre genre) {
-        genres.add(genre);
     }
 
     // Getter and setters
@@ -112,11 +96,11 @@ public class Movie {
         this.releaseYear = releaseYear;
     }
 
-    public List<Genre> getGenres() {
+    public String getGenres() {
         return genres;
     }
 
-    public void setGenres(List<Genre> genres) {
+    public void setGenres(String genres) {
         this.genres = genres;
     }
 
@@ -142,5 +126,13 @@ public class Movie {
 
     public void setFranchise(Franchise franchise) {
         this.franchise = franchise;
+    }
+
+    public List<Character> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(List<Character> characters) {
+        this.characters = characters;
     }
 }

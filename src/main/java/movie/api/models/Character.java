@@ -37,17 +37,6 @@ public class Character {
     )
     private List<Movie> movies = new ArrayList<>();
 
-    @JsonGetter("movies")
-    public List<String> moviesGetter() {
-        if (movies != null) {
-            return movies.stream()
-                    .map(movie -> {
-                        return "/api/v1/movies/" + movie.getMovieId();
-                    }).collect(Collectors.toList());
-        }
-        return null;
-    }
-
     public Character() {
     }
 
