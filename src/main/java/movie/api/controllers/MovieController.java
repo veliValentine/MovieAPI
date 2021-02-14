@@ -78,7 +78,45 @@ public class MovieController {
         Movie returnMovie = new Movie();
         HttpStatus status;
         if (movieRepository.existsById(id)) {
-            returnMovie = movieRepository.save(newMovie);
+            Movie movie = movieRepository.findById(id).get();
+
+            String updateMovieTitle = newMovie.getMovieTitle();
+            String movieTitle = movie.getMovieTitle();
+            if (!updateMovieTitle.equals(movieTitle)) {
+                movie.setMovieTitle(updateMovieTitle);
+            }
+
+            String updateDirector = newMovie.getDirector();
+            String director = movie.getDirector();
+            if (!updateDirector.equals(director)) {
+                movie.setDirector(updateDirector);
+            }
+
+            int updateReleaseYear = newMovie.getReleaseYear();
+            int releaseYear = movie.getReleaseYear();
+            if (updateReleaseYear != releaseYear) {
+                movie.setReleaseYear(updateReleaseYear);
+            }
+
+            String updateGenres = newMovie.getGenres();
+            String genres = movie.getGenres();
+            if (!updateGenres.equals(genres)) {
+                movie.setGenres(updateGenres);
+            }
+
+            String updateMoviePictureSrc = newMovie.getMoviePictureSrc();
+            String moviePictureSrc = movie.getMoviePictureSrc();
+            if (!updateMoviePictureSrc.equals(moviePictureSrc)) {
+                movie.setMoviePictureSrc(updateMoviePictureSrc);
+            }
+
+            String updateTrailerURI = newMovie.getTrailerURI();
+            String trailerURI = movie.getTrailerURI();
+            if (!updateTrailerURI.equals(trailerURI)) {
+                movie.setTrailerURI(updateTrailerURI);
+            }
+
+            returnMovie = movieRepository.save(movie);
             status = HttpStatus.OK;
         } else {
             status = HttpStatus.NOT_FOUND;
@@ -103,20 +141,35 @@ public class MovieController {
     public ResponseEntity<Movie> addCharacterByIdToMovieById(@PathVariable long movieId, @PathVariable long characterId) {
         Movie movie = new Movie();
         HttpStatus status;
-        boolean characterAndMovieExist = characterRepository.existsById(characterId) && movieRepository.existsById(movieId);
-        if (characterAndMovieExist) {
-            movie = movieRepository.findById(movieId).get();
-            boolean movieAssignedToFranchise = movie.getFranchise() != null;
-            if (movieAssignedToFranchise) {
-                Character character = characterRepository.findById(characterId).get();
-                character.setFranchise(movie.getFranchise());
-                movie.addCharacter(character);
-                movieRepository.save(movie);
-                characterRepository.save(character);
-                status = HttpStatus.OK;
+        boolean characterExists = characterRepository.existsById(characterId);
+        boolean movieExists = movieRepository.existsById(movieId);
+        if (characterExists) {
+            if (movieExists) {
+                movie = movieRepository.findById(movieId).get();
+                boolean movieAssignedToFranchise = movie.getFranchise() != null;
+                // The check below is necessary because during assignment of a character to a movie, it also has to be assigned to a franchise for the functionality of the app
+                if (movieAssignedToFranchise) {
+                    Character character = characterRepository.findById(characterId).get();
+                    // The case when the character has already been assigned to the movie
+                    if (movie.getCharacters().contains(character)) {
+                        status = HttpStatus.NO_CONTENT;
+                        return new ResponseEntity<>(movie, status);
+                    } else {
+                        character.setFranchise(movie.getFranchise());
+                        movie.addCharacter(character);
+                        movieRepository.save(movie);
+                        characterRepository.save(character);
+                        status = HttpStatus.OK;
+                    }
+                    // The movie is not assigned to a franchise
+                } else {
+                    status = HttpStatus.NOT_FOUND;
+                }
+            // The movie does not exist
             } else {
                 status = HttpStatus.NOT_FOUND;
             }
+        // The character does not exist
         } else {
             status = HttpStatus.NOT_FOUND;
         }

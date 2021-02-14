@@ -128,4 +128,26 @@ public class Character {
     public void setMovies(List<Movie> movies) {
         this.movies = movies;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((Long) this.characterId).hashCode();
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (this.getClass() != obj.getClass())
+            return false;
+        Character other = (Character) obj;
+        if (this.characterId == 0) {
+            return other.characterId == 0;
+        } else return this.characterId == other.characterId;
+    }
 }

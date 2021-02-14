@@ -94,7 +94,21 @@ public class FranchiseController {
         Franchise returnFranchise = new Franchise();
         HttpStatus status;
         if (franchiseRepository.existsById(id)) {
-            returnFranchise = franchiseRepository.save(newFranchise);
+            Franchise franchise = franchiseRepository.findById(id).get();
+
+            String updateFranchiseName = newFranchise.getFranchiseName();
+            String franchiseName = franchise.getFranchiseName();
+            if (!updateFranchiseName.equals(franchiseName)) {
+                franchise.setFranchiseName(updateFranchiseName);
+            }
+
+            String updateDescription = newFranchise.getDescription();
+            String description = franchise.getDescription();
+            if (!updateDescription.equals(description)) {
+                franchise.setDescription(updateDescription);
+            }
+
+            returnFranchise = franchiseRepository.save(franchise);
             status = HttpStatus.OK;
         } else {
             status = HttpStatus.NOT_FOUND;
@@ -118,15 +132,28 @@ public class FranchiseController {
     public ResponseEntity<Franchise> addMovieByIdToFranchiseById(@PathVariable long franchiseId, @PathVariable long movieId) {
         Franchise franchise = new Franchise();
         HttpStatus status;
-        boolean movieAndFranchiseExist = movieRepository.existsById(movieId) && franchiseRepository.existsById(franchiseId);
-        if (movieAndFranchiseExist) {
-            franchise = franchiseRepository.findById(franchiseId).get();
-            Movie movie = movieRepository.findById(movieId).get();
-            movie.setFranchise(franchise);
-            franchise.addMovie(movie);
-            franchiseRepository.save(franchise);
-            movieRepository.save(movie);
-            status = HttpStatus.OK;
+        boolean movieExists = movieRepository.existsById(movieId);
+        boolean franchiseExists = franchiseRepository.existsById(franchiseId);
+        if (movieExists) {
+            if (franchiseExists) {
+                franchise = franchiseRepository.findById(franchiseId).get();
+                Movie movie = movieRepository.findById(movieId).get();
+                // The case when the movie has already been assigned to the franchise
+                if (franchise.getMovies().contains(movie)) {
+                    status = HttpStatus.NO_CONTENT;
+                    return new ResponseEntity<>(franchise, status);
+                } else {
+                    movie.setFranchise(franchise);
+                    franchise.addMovie(movie);
+                    franchiseRepository.save(franchise);
+                    movieRepository.save(movie);
+                    status = HttpStatus.OK;
+                }
+            // The franchise does not exist
+            } else {
+                status = HttpStatus.NOT_FOUND;
+            }
+        // The movie does not exist
         } else {
             status = HttpStatus.NOT_FOUND;
         }

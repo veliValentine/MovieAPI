@@ -1,6 +1,7 @@
 package movie.api.controllers;
 
 import movie.api.models.Character;
+import movie.api.models.Gender;
 import movie.api.repositories.CharacterRepository;
 import movie.api.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,34 @@ public class CharacterController {
         Character returnCharacter = new Character();
         HttpStatus status;
         if (characterRepository.existsById(id)) {
-            returnCharacter = characterRepository.save(newCharacter);
+            Character character = characterRepository.findById(id).get();
+
+            String updateFullName = newCharacter.getFullName();
+            String fullName = character.getFullName();
+            if (!updateFullName.equals(fullName)) {
+                character.setFullName(updateFullName);
+            }
+
+            String updateAlias = newCharacter.getAlias();
+            String alias = character.getAlias();
+            if (!updateAlias.equals(alias)) {
+                character.setAlias(updateAlias);
+            }
+
+            Gender updateGender = newCharacter.getGender();
+            Gender gender = character.getGender();
+            if (!updateGender.equals(gender)) {
+                character.setGender(updateGender);
+            }
+
+            String updateCharacterPictureSrc = newCharacter.getCharacterPictureSrc();
+            String characterPictureSrc = character.getCharacterPictureSrc();
+            if (!updateCharacterPictureSrc.equals(characterPictureSrc)) {
+                character.setCharacterPictureSrc(updateCharacterPictureSrc);
+            }
+
+            returnCharacter = characterRepository.save(character);
+
             status = HttpStatus.OK;
         } else {
             status = HttpStatus.NOT_FOUND;

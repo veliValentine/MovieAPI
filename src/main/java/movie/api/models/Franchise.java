@@ -102,4 +102,26 @@ public class Franchise {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((Long) this.franchiseId).hashCode();
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (this.getClass() != obj.getClass())
+            return false;
+        Franchise other = (Franchise) obj;
+        if (this.franchiseId == 0) {
+            return other.franchiseId == 0;
+        } else return this.franchiseId == other.franchiseId;
+    }
 }
