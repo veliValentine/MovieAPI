@@ -12,12 +12,13 @@ For the first time, we're working in groups (3 people) which means that this pro
 </ul>
 </section>
 
-The project in short: Create an API with database containing franchises, movies and characters which all has the basic ***CRUD*** (Create, Read, Update and Delete) functions.  
+The project in short: Create an API with database containing franchises, movies and characters which all have the basic ***CRUD*** (Create, Read, Update and Delete) functions.  
 It should also be possible to get ***all movies in a franchise***, ***all characters in a movie*** and ***all characters in a franchise***.
 
-The application then had to be published. This is done via heroku.com as they offer smooth, easy and free deployment. You can find out application at: [Task5-movieapi](http://task5-movieapi.herokuapp.com)
+Documentation has been made by the help of Swagger and can be found at: [Documentation](http://task5-movieapi.herokuapp.com/swagger-ui/#/)  
 
-Documentation has been made by the help of Swagger and can be found at: [Documentation](http://task5-movieapi.herokuapp.com/swagger-ui/#/)
+The publication of the API is done via heroku.com as they offer smooth, easy and free deployment. You can find our API at: [Task5-movieapi](http://task5-movieapi.herokuapp.com)
+
 
 
 
