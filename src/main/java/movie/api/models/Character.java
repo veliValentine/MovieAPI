@@ -52,6 +52,15 @@ public class Character {
     @JoinColumn(name = "franchise_id")
     private Franchise franchise;
 
+    @JsonGetter("franchise")
+    public String franchiseGetter() {
+        if(franchise != null) {
+            return "/api/v1/franchises/" + franchise.getFranchiseId();
+        } else {
+            return null;
+        }
+    }
+
     public Character() {
     }
 

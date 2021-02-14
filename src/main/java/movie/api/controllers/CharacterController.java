@@ -79,25 +79,4 @@ public class CharacterController {
         }
         return new ResponseEntity<>(null, status);
     }
-
-        /*'
-    @PutMapping(value = "/{characterId}/add/movie/{movieId}")
-    public ResponseEntity<Object> addMovieToCharacter(@PathVariable long characterId, @PathVariable long movieId) {
-        Character character = findCharacterById(characterId);
-        Movie movie = findMovieById(movieId);
-        HttpStatus status;
-        if (notEqualIds(character.getCharacterId(), characterId)) {
-            status = HttpStatus.NOT_FOUND;
-            return new ResponseEntity<>(character, status);
-        }
-        if (notEqualIds(movie.getMovieId(), movieId)) {
-            status = HttpStatus.NOT_FOUND;
-            return new ResponseEntity<>(movie, status);
-        }
-        character.addMovie(movie);
-        character = characterRepository.save(character);
-        status = HttpStatus.NO_CONTENT;
-        return new ResponseEntity<>(character, status);
-    }
-    */
 }
