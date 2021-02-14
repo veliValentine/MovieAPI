@@ -151,4 +151,26 @@ public class Movie {
     public void setCharacters(List<Character> characters) {
         this.characters = characters;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((Long) this.movieId).hashCode();
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (this.getClass() != obj.getClass())
+            return false;
+        Movie other = (Movie) obj;
+        if (this.movieId == 0) {
+            return other.movieId == 0;
+        } else return this.movieId == other.movieId;
+    }
 }
