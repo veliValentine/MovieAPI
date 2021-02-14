@@ -27,21 +27,31 @@ public class Franchise {
     private List<Movie> movies; // = new ArrayList<>();
 
     @JsonGetter("movies")
-    public List<String> movieGetter() {
+    public List<String> moviesGetter() {
         if(movies != null) {
             return movies.stream()
-                    .map(movie -> "/api/v1/movies" + movie.getMovieId())
+                    .map(movie -> "/api/v1/movies/" + movie.getMovieId())
                     .collect(Collectors.toList());
         } else {
             return null;
         }
     }
 
-    /*
     @OneToMany
     @JoinColumn(name = "franchise_id")
     private List<Character> characters = new ArrayList<>();
-    */
+
+    @JsonGetter("characters")
+    public List<String> charactersGetter() {
+        if(characters != null) {
+            return characters.stream()
+                    .map(character -> "/api/v1/characters/" + character.getCharacterId())
+                    .collect(Collectors.toList());
+        } else {
+            return null;
+        }
+    }
+
 
     public Franchise() {
     }

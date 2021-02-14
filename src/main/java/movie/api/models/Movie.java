@@ -56,7 +56,7 @@ public class Movie {
     private List<Character> characters; // = new ArrayList<>();
 
     @JsonGetter("characters")
-    public List<String> characterGetter() {
+    public List<String> charactersGetter() {
         if(characters != null) {
             return characters.stream()
                     .map(character -> "/api/v1/characters/" + character.getCharacterId())

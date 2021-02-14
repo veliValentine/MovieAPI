@@ -124,6 +124,8 @@ public class FranchiseController {
             Movie movie = movieRepository.findById(movieId).get();
             movie.setFranchise(franchise);
             franchise.addMovie(movie);
+            franchiseRepository.save(franchise);
+            movieRepository.save(movie);
             status = HttpStatus.OK;
         } else {
             status = HttpStatus.NOT_FOUND;
